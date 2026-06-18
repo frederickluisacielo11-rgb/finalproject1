@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from inventory.models import Product
 from users.models import Users
 
@@ -12,7 +13,7 @@ class Order(models.Model):
     order_id = models.BigAutoField(primary_key=True)
     users = models.ForeignKey(Users, on_delete=models.PROTECT, related_name='orders')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orders')
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(validators=[MinValueValidator(1)])
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,6 +38,5 @@ class Order(models.Model):
             return 'pill-red'
         return 'pill-blue'
 
-    def is_cancellable(self):
-        return self.status == 'pending'
+
 

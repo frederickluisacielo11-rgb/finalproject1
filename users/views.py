@@ -96,7 +96,7 @@ def user_update(request, pk):
         email = request.POST.get('email','').strip()
         gender = request.POST.get('gender','')
         role = request.POST.get('role','')
-        birthdate = request.POST.get('birth_date','').strip()
+        birthdate = request.POST.get('birthdate','').strip()
         address = request.POST.get('address','').strip()
         contact = request.POST.get('contact','').strip()
 

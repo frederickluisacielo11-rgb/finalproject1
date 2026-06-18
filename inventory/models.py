@@ -61,3 +61,5 @@ class Product(models.Model):
             return 'pill-green'
 
 
+
+

@@ -99,11 +99,17 @@ def product_create(request):
         category_id = request.POST.get('category')
         brand = request.POST.get('brand')
         price = request.POST.get('price')
-        quantity = request.POST.get('quantity', 0)
+        quantity = request.POST.get('quantity')
         description = request.POST.get('description', '')
         image = request.FILES.get('image')
 
-        if not name or not category_id or not brand or not price or not quantity:
+        if quantity == '' or quantity is None:
+            messages.error(request, 'Quantity is required.')
+            return render(request, 'inventory/product_form.html', {
+                'categories': categories
+            })
+
+        if not name or not category_id or not brand or not price:
             messages.error(request, 'Please fill in all required fields.')
             return render(request, 'inventory/product_form.html', {'categories': categories})
 
@@ -148,7 +154,13 @@ def product_update(request, pk):
         quantity = request.POST.get('quantity', '').strip()
         description = request.POST.get('description', '')
         
-        if not name or not category_id or not brand or not price or not quantity:
+        if quantity == '':
+            messages.error(request, 'Quantity is required.')
+            return render(request, 'inventory/product_form.html', {
+            'product': product,'categories': categories
+    })
+
+        if not name or not category_id or not brand or not price:
             messages.error(request, 'Please fill in all required fields.')
             return render(request, 'inventory/product_form.html', {
                 'product': product, 'categories': categories
